@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fórum da Turma</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center">Fórum da Turma</h1>
+    <p class="text-center">Bem-vindo ao fórum! Aqui você pode postar suas dúvidas e responder aos colegas.</p>
+
+    <!-- Formulário de postagem de dúvidas -->
+    <div class="card p-4">
+      <h3>Poste sua dúvida</h3>
+      <textarea class="form-control mb-3" rows="3" placeholder="Escreva sua dúvida aqui..."></textarea>
+      <button class="btn btn-primary w-100">Postar Dúvida</button>
+    </div>
+
+    <div class="mt-5">
+      <h3>Dúvidas Recentes:</h3>
+      <!-- Exemplo de perguntas postadas -->
+      <ul class="list-group">
+        <li class="list-group-item">
+          <strong>Qual a diferença entre JavaScript e TypeScript?</strong>
+          <p>Alguém poderia me explicar as principais diferenças?</p>
+          <button class="btn btn-info btn-sm">Responder</button>
+        </li>
+        <li class="list-group-item">
+          <strong>Como funciona a manipulação de DOM?</strong>
+          <p>Preciso entender como manipular o DOM com JavaScript.</p>
+          <button class="btn btn-info btn-sm">Responder</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
