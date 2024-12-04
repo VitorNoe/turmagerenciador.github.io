@@ -18,7 +18,6 @@ function register() {
     localStorage.setItem('users', JSON.stringify(users));
     alert('Usuário registrado com sucesso!');
     showLogin();
-  }
 }
 
 // Função de Login
@@ -50,3 +49,7 @@ function showLogin() {
   document.getElementById('register-form').style.display = 'none';
   document.getElementById('login-form').style.display = 'block';
 }
+
+// Associar os botões aos eventos de clique
+document.getElementById('login-btn').addEventListener('click', login);
+document.getElementById('register-btn').addEventListener('click', register);
