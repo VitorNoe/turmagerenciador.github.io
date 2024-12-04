@@ -1,7 +1,8 @@
 // Simula o banco de dados em JSON (localStorage para persistência)
 let questions = JSON.parse(localStorage.getItem('questions')) || [];
+let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 
-// Exibe as perguntas e respostas
+// Exibe as perguntas
 function displayQuestions() {
   const questionsList = document.getElementById('questions-list');
   questionsList.innerHTML = ''; // Limpa a lista de perguntas antes de recarregar
@@ -17,16 +18,6 @@ function displayQuestions() {
     questionText.classList.add('card-text');
     questionText.textContent = question.question;
 
-    const responsesList = document.createElement('ul');
-    responsesList.classList.add('list-group', 'list-group-flush');
-
-    question.responses.forEach(response => {
-      const responseItem = document.createElement('li');
-      responseItem.classList.add('list-group-item');
-      responseItem.textContent = response;
-      responsesList.appendChild(responseItem);
-    });
-
     const responseForm = document.createElement('div');
     responseForm.classList.add('form-group');
     responseForm.innerHTML = `
@@ -35,7 +26,6 @@ function displayQuestions() {
     `;
 
     questionCardBody.appendChild(questionText);
-    questionCardBody.appendChild(responsesList);
     questionCardBody.appendChild(responseForm);
     questionCard.appendChild(questionCardBody);
     questionsList.appendChild(questionCard);
@@ -74,5 +64,42 @@ function postResponse(index) {
   }
 }
 
+// Função para mostrar ou ocultar a senha
+function togglePassword(id) {
+  const passwordField = document.getElementById(id);
+  const type = passwordField.type === 'password' ? 'text' : 'password';
+  passwordField.type = type;
+}
+
+// Função de login
+document.getElementById('login-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const name = document.getElementById('login-name').value;
+  const password = document.getElementById('login-password').value;
+
+  // Verificação de usuário (simulação)
+  if (name === currentUser.name && password === currentUser.password) {
+    alert('Login bem-sucedido!');
+    $('#login-modal').modal('hide');
+    displayQuestions();
+  } else {
+    alert('Nome ou senha incorretos!');
+  }
+});
+
+// Função de registro
+document.getElementById('register-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const name = document.getElementById('register-name').value;
+  const password = document.getElementById('register-password').value;
+
+  // Armazenando usuário no localStorage
+  currentUser = { name, password };
+  localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+  alert('Registro bem-sucedido!');
+  $('#register-modal').modal('hide');
+});
+  
 // Exibe as perguntas quando a página carrega
 window.onload = displayQuestions;
