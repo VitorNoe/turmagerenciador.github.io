@@ -18,6 +18,14 @@ function displayQuestions() {
     questionText.classList.add('card-text');
     questionText.textContent = question.question;
 
+    // Exibe as respostas se houver
+    const responseList = document.createElement('ul');
+    question.responses.forEach(response => {
+      const responseItem = document.createElement('li');
+      responseItem.textContent = response;
+      responseList.appendChild(responseItem);
+    });
+
     const responseForm = document.createElement('div');
     responseForm.classList.add('form-group');
     responseForm.innerHTML = `
@@ -26,6 +34,7 @@ function displayQuestions() {
     `;
 
     questionCardBody.appendChild(questionText);
+    questionCardBody.appendChild(responseList);
     questionCardBody.appendChild(responseForm);
     questionCard.appendChild(questionCardBody);
     questionsList.appendChild(questionCard);
@@ -100,6 +109,14 @@ document.getElementById('register-form').addEventListener('submit', function(eve
   alert('Registro bem-sucedido!');
   $('#register-modal').modal('hide');
 });
-  
+
 // Exibe as perguntas quando a página carrega
-window.onload = displayQuestions;
+window.onload = function() {
+  displayQuestions();
+  // Se o usuário já estiver logado, não exibe o login
+  if (currentUser) {
+    displayQuestions();
+  } else {
+    $('#login-modal').modal('show');
+  }
+};
