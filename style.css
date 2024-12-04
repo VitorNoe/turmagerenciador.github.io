@@ -1,0 +1,15 @@
+body {
+  background-color: #f8f9fa; /* Cor de fundo */
+}
+
+h1 {
+  color: #343a40;
+}
+
+.card {
+  border-radius: 10px;
+}
+
+.card-body {
+  background-color: #ffffff;
+}
