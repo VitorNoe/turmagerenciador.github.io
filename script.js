@@ -37,7 +37,7 @@ function login() {
     alert(`Bem-vindo, ${username}!`);
     // Verifica se o usuário é admin
     if (user.isAdmin) {
-      window.location.href = "admin.html"; // Página do admin (você pode criar isso depois)
+      window.location.href = "admin.html"; // Página do admin
     } else {
       window.location.href = "forum.html"; // Página principal do fórum
     }
