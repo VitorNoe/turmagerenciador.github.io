@@ -1,35 +1,52 @@
-document.getElementById('question-form').addEventListener('submit', function(event) {
-  event.preventDefault(); // Evita recarregar a página
+// Simula o banco de dados em JSON
+let users = JSON.parse(localStorage.getItem('users')) || [];
+const adminUser = { username: "admin", password: "admin123", isAdmin: true };
+if (!users.find(user => user.username === "admin")) {
+  users.push(adminUser);
+  localStorage.setItem('users', JSON.stringify(users));
+}
 
-  // Obtém a dúvida digitada
-  const questionText = document.getElementById('question').value;
+// Função de Registro
+function register() {
+  const username = document.getElementById('register-username').value;
+  const password = document.getElementById('register-password').value;
 
-  // Cria um elemento para a nova dúvida
-  const questionElement = document.createElement('div');
-  questionElement.className = 'card mb-3';
-  questionElement.innerHTML = `
-    <div class="card-body">
-      <p class="card-text">${questionText}</p>
-      <input type="text" class="form-control mb-2" placeholder="Responder..." required>
-      <button class="btn btn-secondary btn-sm">Enviar Resposta</button>
-      <div class="mt-2 responses"></div> <!-- Área para respostas -->
-    </div>
-  `;
+  if (users.find(user => user.username === username)) {
+    alert('Usuário já existe!');
+  } else {
+    users.push({ username, password, isAdmin: false });
+    localStorage.setItem('users', JSON.stringify(users));
+    alert('Usuário registrado com sucesso!');
+    showLogin();
+  }
+}
 
-  // Adiciona a dúvida à lista
-  document.getElementById('questions-list').appendChild(questionElement);
-  document.getElementById('question').value = ''; // Limpa o formulário
+// Função de Login
+function login() {
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
 
-  // Evento para adicionar respostas
-  questionElement.querySelector('button').addEventListener('click', function() {
-    const responseInput = questionElement.querySelector('input');
-    const responseText = responseInput.value;
-    if (responseText.trim() !== '') {
-      const responseElement = document.createElement('p');
-      responseElement.className = 'border-top pt-2';
-      responseElement.textContent = responseText;
-      questionElement.querySelector('.responses').appendChild(responseElement);
-      responseInput.value = ''; // Limpa o campo de resposta
+  const user = users.find(user => user.username === username && user.password === password);
+
+  if (user) {
+    alert(`Bem-vindo, ${username}!`);
+    if (user.isAdmin) {
+      window.location.href = "admin.html"; // Página do admin (você pode criar isso depois)
+    } else {
+      window.location.href = "forum.html"; // Página principal do fórum
     }
-  });
-});
+  } else {
+    alert('Nome ou senha incorretos!');
+  }
+}
+
+// Alternar entre formulários de login e registro
+function showRegister() {
+  document.getElementById('login-form').style.display = 'none';
+  document.getElementById('register-form').style.display = 'block';
+}
+
+function showLogin() {
+  document.getElementById('register-form').style.display = 'none';
+  document.getElementById('login-form').style.display = 'block';
+}
