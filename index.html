@@ -12,7 +12,7 @@
     <!-- Formulário de Login -->
     <div id="login-form" class="card p-4">
       <h2 class="mb-3 text-center">Login</h2>
-      <form>
+      <form id="login">
         <div class="mb-3">
           <label for="username" class="form-label">Nome</label>
           <input type="text" class="form-control" id="username" required>
@@ -21,7 +21,7 @@
           <label for="password" class="form-label">Senha</label>
           <input type="password" class="form-control" id="password" required>
         </div>
-        <button type="button" class="btn btn-primary w-100" onclick="login()">Entrar</button>
+        <button type="button" class="btn btn-primary w-100" id="login-btn">Entrar</button>
         <p class="text-center mt-3">Novo aqui? <a href="#" onclick="showRegister()">Registre-se</a></p>
       </form>
     </div>
@@ -29,7 +29,7 @@
     <!-- Formulário de Registro (escondido por padrão) -->
     <div id="register-form" class="card p-4" style="display:none;">
       <h2 class="mb-3 text-center">Registrar</h2>
-      <form>
+      <form id="register">
         <div class="mb-3">
           <label for="register-username" class="form-label">Nome</label>
           <input type="text" class="form-control" id="register-username" required>
@@ -38,7 +38,7 @@
           <label for="register-password" class="form-label">Senha</label>
           <input type="password" class="form-control" id="register-password" required>
         </div>
-        <button type="button" class="btn btn-success w-100" onclick="register()">Registrar</button>
+        <button type="button" class="btn btn-success w-100" id="register-btn">Registrar</button>
         <p class="text-center mt-3">Já tem uma conta? <a href="#" onclick="showLogin()">Faça login</a></p>
       </form>
     </div>
