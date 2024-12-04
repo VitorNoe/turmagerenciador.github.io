@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fórum da Turma</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"> <!-- Arquivo de estilos personalizado -->
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">Fórum de Dúvidas</h1>
+    <!-- Formulário para postar dúvida -->
+    <form id="question-form" class="mb-3">
+      <div class="mb-3">
+        <label for="question" class="form-label">Sua Dúvida</label>
+        <textarea class="form-control" id="question" rows="3" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Postar Dúvida</button>
+    </form>
+
+    <!-- Lista de dúvidas postadas -->
+    <div id="questions-list"></div>
+  </div>
+
+  <script src="script.js"></script> <!-- Arquivo JavaScript personalizado -->
+</body>
+</html>
