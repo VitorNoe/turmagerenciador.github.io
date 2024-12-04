@@ -1,15 +1,13 @@
 body {
-  background-color: #f8f9fa; /* Cor de fundo */
-}
-
-h1 {
-  color: #343a40;
+  background-color: #f0f4f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
 }
 
 .card {
-  border-radius: 10px;
-}
-
-.card-body {
-  background-color: #ffffff;
+  max-width: 400px;
+  width: 100%;
 }
