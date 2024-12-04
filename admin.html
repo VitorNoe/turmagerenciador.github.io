@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Administração</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center">Painel de Administração</h1>
+    <p class="text-center">Aqui você pode visualizar e remover usuários registrados.</p>
+
+    <h3>Usuários Registrados</h3>
+    <ul class="list-group">
+      <!-- A lista de usuários será gerada dinamicamente com JavaScript -->
+    </ul>
+
+    <script>
+      // Obtém os dados dos usuários armazenados no localStorage
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const userList = document.querySelector('ul.list-group');
+
+      // Exibe a lista de usuários no painel
+      users.forEach(user => {
+        if (user.username !== 'admin') {  // Não exibe o administrador
+          const li = document.createElement('li');
+          li.classList.add('list-group-item');
+          li.innerHTML = `
+            <strong>${user.username}</strong>
+            <button class="btn btn-danger btn-sm float-end" onclick="removeUser('${user.username}')">Remover</button>
+          `;
+          userList.appendChild(li);
+        }
+      });
+
+      // Função para remover o usuário
+      function removeUser(username) {
+        const updatedUsers = users.filter(user => user.username !== username);
+        localStorage.setItem('users', JSON.stringify(updatedUsers));
+        alert(`Usuário ${username} removido com sucesso!`);
+        location.reload(); // Recarrega a página para refletir as alterações
+      }
+    </script>
+  </div>
+</body>
+</html>
