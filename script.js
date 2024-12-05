@@ -21,7 +21,14 @@ function register() {
     users.push({ username, password, isAdmin: false });
     localStorage.setItem('users', JSON.stringify(users));
     alert('Usuário registrado com sucesso!');
-    showLogin(); // Redireciona para a página de login
+    
+    // Redireciona para a página de fórum ou admin após o registro
+    const user = users.find(user => user.username === username && user.password === password);
+    if (user.isAdmin) {
+      window.location.href = "admin.html"; // Página do admin
+    } else {
+      window.location.href = "forum.html"; // Página do fórum
+    }
   }
 }
 
