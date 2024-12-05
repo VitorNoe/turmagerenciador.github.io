@@ -8,78 +8,168 @@ if (!users.find(user => user.username === "admin")) {
   localStorage.setItem('users', JSON.stringify(users));
 }
 
-// Função de Registro
+// Função de Registro com validações
 function register() {
-  const username = document.getElementById('register-username').value;
-  const password = document.getElementById('register-password').value;
-
+  const username = document.getElementById('register-username').value.trim();
+  const password = document.getElementById('register-password').value.trim();
+  
+  // Validações de entrada
+  if (username.length < 3) {
+    showError('Nome de usuário deve ter pelo menos 3 caracteres');
+    return;
+  }
+  
+  if (password.length < 6) {
+    showError('Senha deve ter pelo menos 6 caracteres');
+    return;
+  }
+  
   // Verifica se o nome de usuário já existe
   if (users.find(user => user.username === username)) {
-    alert('Usuário já existe!');
-  } else {
-    // Adiciona o novo usuário
-    users.push({ username, password, isAdmin: false });
-    localStorage.setItem('users', JSON.stringify(users));
-    alert('Usuário registrado com sucesso!');
-    
-    // Redireciona para a página de fórum ou admin após o registro
-    const user = users.find(user => user.username === username && user.password === password);
-    if (user.isAdmin) {
-      window.location.href = "admin.html"; // Página do admin
-    } else {
-      window.location.href = "forum.html"; // Página do fórum
-    }
+    showError('Usuário já existe!');
+    return;
   }
+
+  // Adiciona o novo usuário
+  const newUser = { 
+    username, 
+    password, 
+    isAdmin: false,
+    createdAt: new Date().toISOString()
+  };
+  
+  users.push(newUser);
+  localStorage.setItem('users', JSON.stringify(users));
+  
+  // Feedback de sucesso
+  Swal.fire({
+    icon: 'success',
+    title: 'Registro Concluído!',
+    text: 'Usuário registrado com sucesso',
+    confirmButtonText: 'OK'
+  }).then(() => {
+    redirectUser(newUser);
+  });
 }
 
-// Função de Login
+// Função de Login melhorada
 function login() {
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  
   // Procura o usuário no banco de dados
   const user = users.find(user => user.username === username && user.password === password);
-
+  
   if (user) {
-    alert(`Bem-vindo, ${username}!`);
-    // Verifica se o usuário é admin
-    if (user.isAdmin) {
-      window.location.href = "admin.html"; // Página do admin
-    } else {
-      window.location.href = "forum.html"; // Página principal do fórum
-    }
+    // Animação de login bem-sucedido
+    Swal.fire({
+      icon: 'success',
+      title: `Bem-vindo, ${username}!`,
+      showConfirmButton: false,
+      timer: 1500
+    }).then(() => {
+      redirectUser(user);
+    });
   } else {
-    alert('Nome ou senha incorretos!');
+    showError('Nome ou senha incorretos!');
   }
 }
 
-// Alternar entre formulários de login e registro
+// Função para redirecionar usuário
+function redirectUser(user) {
+  if (user.isAdmin) {
+    window.location.href = "admin.html";
+  } else {
+    window.location.href = "forum.html";
+  }
+}
+
+// Função para mostrar erros
+function showError(message) {
+  Swal.fire({
+    icon: 'error',
+    title: 'Erro',
+    text: message,
+    confirmButtonText: 'OK'
+  });
+}
+
+// Alternar entre formulários de login e registro com animações
 function showRegister() {
-  document.getElementById('login-form').style.display = 'none';
-  document.getElementById('register-form').style.display = 'block';
+  document.getElementById('login-form').classList.add('animate__animated', 'animate__fadeOutLeft');
+  setTimeout(() => {
+    document.getElementById('login-form').style.display = 'none';
+    document.getElementById('register-form').style.display = 'block';
+    document.getElementById('register-form').classList.add('animate__animated', 'animate__fadeInRight');
+  }, 500);
 }
 
 function showLogin() {
-  document.getElementById('register-form').style.display = 'none';
-  document.getElementById('login-form').style.display = 'block';
+  document.getElementById('register-form').classList.add('animate__animated', 'animate__fadeOutRight');
+  setTimeout(() => {
+    document.getElementById('register-form').style.display = 'none';
+    document.getElementById('login-form').style.display = 'block';
+    document.getElementById('login-form').classList.add('animate__animated', 'animate__fadeInLeft');
+  }, 500);
 }
 
-// Evento de clique para login
-document.getElementById('login-btn').addEventListener('click', login);
+// Eventos de clique
+document.addEventListener('DOMContentLoaded', () => {
+  const loginBtn = document.getElementById('login-btn');
+  const registerBtn = document.getElementById('register-btn');
+  const passwordInput = document.getElementById('password');
+  const registerPasswordInput = document.getElementById('register-password');
 
-// Evento de clique para registro
-document.getElementById('register-btn').addEventListener('click', register);
+  if (loginBtn) loginBtn.addEventListener('click', login);
+  if (registerBtn) registerBtn.addEventListener('click', register);
 
-// Permite login com Enter (ao pressionar Enter no campo de senha)
-document.getElementById('password').addEventListener('keypress', function(event) {
-  if (event.key === 'Enter') {
-    login();
+  // Adiciona suporte para Enter em campos de senha
+  if (passwordInput) {
+    passwordInput.addEventListener('keypress', function(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        login();
+      }
+    });
+  }
+
+  if (registerPasswordInput) {
+    registerPasswordInput.addEventListener('keypress', function(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        register();
+      }
+    });
   }
 });
 
-// Permite registro com Enter (ao pressionar Enter no campo de senha)
-document.getElementById('register-password').addEventListener('keypress', function(event) {
-  if (event.key === 'Enter') {
-    register();
+// Função para gerenciar postagens no fórum
+function postQuestion() {
+  const questionTextarea = document.querySelector('.card textarea');
+  const questionText = questionTextarea.value.trim();
+  
+  if (questionText) {
+    const questionsList = document.querySelector('.list-group');
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    
+    const newQuestionElement = document.createElement('li');
+    newQuestionElement.classList.add('list-group-item', 'animate__animated', 'animate__fadeIn');
+    newQuestionElement.innerHTML = `
+      <strong>${currentUser ? currentUser.username : 'Usuário Anônimo'}</strong>
+      <p>${questionText}</p>
+      <button class="btn btn-info btn-sm">Responder</button>
+    `;
+    
+    questionsList.insertBefore(newQuestionElement, questionsList.firstChild);
+    questionTextarea.value = '';
+    
+    // Salvar questão no localStorage (implementação básica)
+    const questions = JSON.parse(localStorage.getItem('forumQuestions') || '[]');
+    questions.unshift({
+      user: currentUser ? currentUser.username : 'Usuário Anônimo',
+      text: questionText,
+      timestamp: new Date().toISOString()
+    });
+    localStorage.setItem('forumQuestions', JSON.stringify(questions));
   }
-});
+}
