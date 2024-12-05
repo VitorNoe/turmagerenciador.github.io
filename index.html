@@ -1,68 +1,44 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fórum da Turma - Login</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <title>Fórum da Turma</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
 <body>
-  <div class="container mt-5">
+  <div class="container">
+    <h1>Fórum da Turma</h1>
+    
     <!-- Formulário de Login -->
-    <div id="login-form" class="card p-4 form-container">
-      <h2 class="mb-3 text-center">Login</h2>
-      <form id="login">
-        <div class="mb-3">
-          <label for="username" class="form-label">Nome</label>
-          <div class="input-group">
-            <span class="input-group-text"><i class="fas fa-user"></i></span>
-            <input type="text" class="form-control" id="username" required>
-          </div>
-        </div>
-        <div class="mb-3">
-          <label for="password" class="form-label">Senha</label>
-          <div class="input-group">
-            <span class="input-group-text"><i class="fas fa-lock"></i></span>
-            <input type="password" class="form-control" id="password" required>
-          </div>
-        </div>
-        <button type="button" class="btn btn-primary w-100" id="login-btn">
-          <i class="fas fa-sign-in-alt"></i> Entrar
-        </button>
-        <p class="text-center mt-3">Novo aqui? <a href="#" onclick="showRegister()">Registre-se</a></p>
-      </form>
+    <div id="login-form" class="form-container animate__animated animate__fadeInLeft">
+      <h2>Login</h2>
+      <input type="text" id="login-username" placeholder="Nome de usuário" required>
+      <input type="password" id="login-password" placeholder="Senha" required>
+      <button onclick="login()">Entrar</button>
+      <p>Não tem conta? <a href="#" onclick="showRegister()">Registre-se</a></p>
     </div>
     
-    <!-- Formulário de Registro (escondido por padrão) -->
-    <div id="register-form" class="card p-4 form-container" style="display:none;">
-      <h2 class="mb-3 text-center">Registrar</h2>
-      <form id="register">
-        <div class="mb-3">
-          <label for="register-username" class="form-label">Nome</label>
-          <div class="input-group">
-            <span class="input-group-text"><i class="fas fa-user"></i></span>
-            <input type="text" class="form-control" id="register-username" required>
-          </div>
-        </div>
-        <div class="mb-3">
-          <label for="register-password" class="form-label">Senha</label>
-          <div class="input-group">
-            <span class="input-group-text"><i class="fas fa-lock"></i></span>
-            <input type="password" class="form-control" id="register-password" required>
-          </div>
-        </div>
-        <button type="button" class="btn btn-success w-100" id="register-btn">
-          <i class="fas fa-user-plus"></i> Registrar
-        </button>
-        <p class="text-center mt-3">Já tem uma conta? <a href="#" onclick="showLogin()">Faça login</a></p>
-      </form>
+    <!-- Formulário de Registro -->
+    <div id="register-form" class="form-container animate__animated" style="display:none;">
+      <h2>Registro</h2>
+      <input type="text" id="register-username" placeholder="Nome de usuário" required>
+      <input type="password" id="register-password" placeholder="Senha" required>
+      <button onclick="register()">Registrar</button>
+      <p>Já tem conta? <a href="#" onclick="showLogin()">Faça login</a></p>
+    </div>
+
+    <!-- Área do Fórum -->
+    <div id="forum-section" class="animate__animated" style="display:none;">
+      <div class="card">
+        <textarea placeholder="Faça uma pergunta..." rows="3"></textarea>
+        <button onclick="postQuestion()">Postar</button>
+      </div>
+      <ul id="questions-list" class="list-group mt-3"></ul>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
