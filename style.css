@@ -1,13 +1,35 @@
 body {
-  background-color: #f0f4f8;
+  background: linear-gradient(135deg, #f0f4f8 0%, #e0e7f0 100%);
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
+  font-family: 'Arial', sans-serif;
 }
 
 .card {
   max-width: 400px;
   width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.form-container {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+button {
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  opacity: 0.9;
 }
