@@ -1,61 +1,118 @@
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --background-color: #f0f4f8;
+  --card-background: #ffffff;
+  --text-color: #2c3e50;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f4f8;
+  background-color: var(--background-color);
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
   margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-color);
 }
 
-.container {
-  width: 90%;
-  max-width: 600px;
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.form-container {
-  display: flex;
-  flex-direction: column;
-}
-
-input[type="text"],
-input[type="password"],
-textarea {
+.card {
+  max-width: 400px;
   width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-button {
-  padding: 10px;
-  background-color: #28a745;
-  color: white;
+  background-color: var(--card-background);
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin: 10px 0;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
-button:hover {
-  background-color: #218838;
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
-.list-group {
-  list-style: none;
-  padding: 0;
+.alert-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: 300px;
 }
 
-.list-group-item {
-  border: 1px solid #ddd;
-  padding: 15px;
+/* Animações de transição de formulário */
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(100%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-100%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideOutRight {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(100%); }
+}
+
+@keyframes slideOutLeft {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(-100%); }
+}
+
+.slide-in-right {
+  animation: slideInRight 0.5s ease;
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.5s ease;
+}
+
+.slide-out-right {
+  animation: slideOutRight 0.5s ease;
+}
+
+.slide-out-left {
+  animation: slideOutLeft 0.5s ease;
+}
+
+/* Botões com efeitos */
+.btn-primary, .btn-success {
+  background-color: var(--primary-color);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover, .btn-success:hover {
+  transform: scale(1.05);
+  background-color: darken(var(--primary-color), 10%);
+}
+
+/* Área de alertas */
+.alert-container .alert {
   margin-bottom: 10px;
-  border-radius: 5px;
-  text-align: left;
+  opacity: 0.9;
+}
+
+/* Animações de input */
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+/* Ícone de mostrar/esconder senha */
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+
+.password-toggle:hover {
+  opacity: 1;
 }
