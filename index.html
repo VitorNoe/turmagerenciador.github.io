@@ -1,44 +1,58 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fórum da Turma</title>
+  <title>Fórum da Turma - Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Fórum da Turma</h1>
-    
+  <div id="alert-container"></div>
+  <div class="container mt-5">
     <!-- Formulário de Login -->
-    <div id="login-form" class="form-container animate__animated animate__fadeInLeft">
-      <h2>Login</h2>
-      <input type="text" id="login-username" placeholder="Nome de usuário" required>
-      <input type="password" id="login-password" placeholder="Senha" required>
-      <button onclick="login()">Entrar</button>
-      <p>Não tem conta? <a href="#" onclick="showRegister()">Registre-se</a></p>
+    <div id="login-form" class="card p-4">
+      <h2 class="mb-3 text-center">Login</h2>
+      <form id="login">
+        <div class="mb-3 position-relative">
+          <label for="username" class="form-label">Nome</label>
+          <input type="text" class="form-control" id="username" required>
+        </div>
+        <div class="mb-3 position-relative">
+          <label for="password" class="form-label">Senha</label>
+          <input type="password" class="form-control" id="password" required>
+          <span class="password-toggle" onclick="togglePasswordVisibility('password')">
+            <i class="fas fa-eye-slash"></i>
+          </span>
+        </div>
+        <button type="button" class="btn btn-primary w-100" id="login-btn">Entrar</button>
+        <p class="text-center mt-3">Novo aqui? <a href="#" onclick="showRegister()">Registre-se</a></p>
+      </form>
     </div>
     
-    <!-- Formulário de Registro -->
-    <div id="register-form" class="form-container animate__animated" style="display:none;">
-      <h2>Registro</h2>
-      <input type="text" id="register-username" placeholder="Nome de usuário" required>
-      <input type="password" id="register-password" placeholder="Senha" required>
-      <button onclick="register()">Registrar</button>
-      <p>Já tem conta? <a href="#" onclick="showLogin()">Faça login</a></p>
-    </div>
-
-    <!-- Área do Fórum -->
-    <div id="forum-section" class="animate__animated" style="display:none;">
-      <div class="card">
-        <textarea placeholder="Faça uma pergunta..." rows="3"></textarea>
-        <button onclick="postQuestion()">Postar</button>
-      </div>
-      <ul id="questions-list" class="list-group mt-3"></ul>
+    <!-- Formulário de Registro (escondido por padrão) -->
+    <div id="register-form" class="card p-4" style="display:none;">
+      <h2 class="mb-3 text-center">Registrar</h2>
+      <form id="register">
+        <div class="mb-3 position-relative">
+          <label for="register-username" class="form-label">Nome</label>
+          <input type="text" class="form-control" id="register-username" required>
+        </div>
+        <div class="mb-3 position-relative">
+          <label for="register-password" class="form-label">Senha</label>
+          <input type="password" class="form-control" id="register-password" required>
+          <span class="password-toggle" onclick="togglePasswordVisibility('register-password')">
+            <i class="fas fa-eye-slash"></i>
+          </span>
+        </div>
+        <button type="button" class="btn btn-success w-100" id="register-btn">Registrar</button>
+        <p class="text-center mt-3">Já tem uma conta? <a href="#" onclick="showLogin()">Faça login</a></p>
+      </form>
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
