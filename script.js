@@ -36,17 +36,17 @@ function register() {
   const password = document.getElementById('register-password').value.trim();
 
   if (username.length < 3) {
-    alert('Nome de usuário deve ter pelo menos 3 caracteres');
+    showError('Nome de usuário deve ter pelo menos 3 caracteres');
     return;
   }
   
   if (password.length < 6) {
-    alert('Senha deve ter pelo menos 6 caracteres');
+    showError('Senha deve ter pelo menos 6 caracteres');
     return;
   }
 
   if (users.find(user => user.username === username)) {
-    alert('Usuário já existe!');
+    showError('Usuário já existe!');
     return;
   }
 
@@ -54,8 +54,15 @@ function register() {
   users.push(newUser);
   localStorage.setItem('users', JSON.stringify(users));
 
-  alert('Registro concluído com sucesso!');
-  showLogin();
+  // Animação de sucesso ao registrar
+  Swal.fire({
+    icon: 'success',
+    title: 'Registro Concluído!',
+    text: 'Usuário registrado com sucesso',
+    confirmButtonText: 'OK'
+  }).then(() => {
+    showLogin(); // Redireciona para o formulário de login após registrar
+  });
 }
 
 // Função de Login melhorada
@@ -67,10 +74,18 @@ function login() {
 
   if (user) {
     localStorage.setItem('currentUser', JSON.stringify(user));
-    alert(`Bem-vindo, ${username}!`);
-    showForum();
+
+    // Animação de sucesso ao logar
+    Swal.fire({
+      icon: 'success',
+      title: `Bem-vindo, ${username}!`,
+      showConfirmButton: false,
+      timer: 1500
+    }).then(() => {
+      showForum();
+    });
   } else {
-    alert('Nome ou senha incorretos!');
+    showError('Nome ou senha incorretos!');
   }
 }
 
@@ -82,13 +97,26 @@ function showForum() {
   loadQuestions();
 }
 
+// Função para mostrar erros
+function showError(message) {
+  Swal.fire({
+    icon: 'error',
+    title: 'Erro',
+    text: message,
+    confirmButtonText: 'OK'
+  });
+}
+
 // Função para postar uma pergunta
 function postQuestion() {
   const questionTextarea = document.querySelector('.card textarea');
   const questionText = questionTextarea.value.trim();
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-  if (!currentUser) return alert('Você precisa estar logado.');
+  if (!currentUser) {
+    showError('Você precisa estar logado para fazer uma pergunta.');
+    return;
+  }
 
   if (questionText) {
     const questions = JSON.parse(localStorage.getItem('forumQuestions') || '[]');
@@ -96,6 +124,8 @@ function postQuestion() {
     localStorage.setItem('forumQuestions', JSON.stringify(questions));
     questionTextarea.value = '';
     loadQuestions();
+  } else {
+    showError('Por favor, digite uma pergunta antes de postar.');
   }
 }
 
