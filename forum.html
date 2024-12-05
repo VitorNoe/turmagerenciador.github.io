@@ -1,106 +1,41 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fórum - Turma</title>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="script.js" defer></script>
+  <title>Fórum da Turma</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
   <div class="container mt-5">
-    <h2>Fórum de Perguntas e Respostas</h2>
+    <h1 class="text-center">Fórum da Turma</h1>
+    <p class="text-center">Bem-vindo ao fórum! Aqui você pode postar suas dúvidas e responder aos colegas.</p>
 
-    <!-- Formulário para adicionar uma pergunta -->
-    <div class="card my-4">
-      <div class="card-body">
-        <h5 class="card-title">Postar uma Pergunta</h5>
-        <form id="question-form">
-          <div class="form-group">
-            <label for="question">Sua Pergunta:</label>
-            <textarea class="form-control" id="question" rows="3" required></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary">Postar Pergunta</button>
-        </form>
-      </div>
+    <!-- Formulário de postagem de dúvidas -->
+    <div class="card p-4">
+      <h3>Poste sua dúvida</h3>
+      <textarea class="form-control mb-3" rows="3" placeholder="Escreva sua dúvida aqui..."></textarea>
+      <button class="btn btn-primary w-100">Postar Dúvida</button>
     </div>
 
-    <!-- Mural dividido: Perguntas e Respostas -->
-    <div class="row">
-      <!-- Perguntas -->
-      <div class="col-md-6">
-        <h4>Perguntas</h4>
-        <div id="questions-list">
-          <!-- Perguntas serão carregadas aqui -->
-        </div>
-      </div>
-
-      <!-- Respostas -->
-      <div class="col-md-6">
-        <h4>Respostas</h4>
-        <div id="responses-list">
-          <!-- Respostas serão carregadas aqui -->
-        </div>
-      </div>
+    <div class="mt-5">
+      <h3>Dúvidas Recentes:</h3>
+      <!-- Exemplo de perguntas postadas -->
+      <ul class="list-group">
+        <li class="list-group-item">
+          <strong>Qual a diferença entre JavaScript e TypeScript?</strong>
+          <p>Alguém poderia me explicar as principais diferenças?</p>
+          <button class="btn btn-info btn-sm">Responder</button>
+        </li>
+        <li class="list-group-item">
+          <strong>Como funciona a manipulação de DOM?</strong>
+          <p>Preciso entender como manipular o DOM com JavaScript.</p>
+          <button class="btn btn-info btn-sm">Responder</button>
+        </li>
+      </ul>
     </div>
   </div>
 
-  <!-- Modais de Login e Registro -->
-  <div class="modal" tabindex="-1" id="login-modal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Login</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form id="login-form">
-            <div class="form-group">
-              <label for="login-name">Nome de Usuário</label>
-              <input type="text" class="form-control" id="login-name" required>
-            </div>
-            <div class="form-group">
-              <label for="login-password">Senha</label>
-              <input type="password" class="form-control" id="login-password" required>
-              <button type="button" class="btn btn-link" onclick="togglePassword('login-password')">Mostrar Senha</button>
-            </div>
-            <button type="submit" class="btn btn-primary">Entrar</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal de Registro -->
-  <div class="modal" tabindex="-1" id="register-modal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Registrar</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form id="register-form">
-            <div class="form-group">
-              <label for="register-name">Nome de Usuário</label>
-              <input type="text" class="form-control" id="register-name" required>
-            </div>
-            <div class="form-group">
-              <label for="register-password">Senha</label>
-              <input type="password" class="form-control" id="register-password" required>
-              <button type="button" class="btn btn-link" onclick="togglePassword('register-password')">Mostrar Senha</button>
-            </div>
-            <button type="submit" class="btn btn-primary">Registrar</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+  <script src="script.js"></script>
 </body>
 </html>
