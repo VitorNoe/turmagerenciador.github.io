@@ -1,8 +1,7 @@
-// Simula o banco de dados em JSON (localStorage para persistência)
 let questions = JSON.parse(localStorage.getItem('questions')) || [];
 let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 
-// Exibe as perguntas
+// Função para exibir perguntas
 function displayQuestions() {
   const questionsList = document.getElementById('questions-list');
   questionsList.innerHTML = ''; // Limpa a lista de perguntas antes de recarregar
@@ -81,42 +80,57 @@ function togglePassword(id) {
 }
 
 // Função de login
-document.getElementById('login-form').addEventListener('submit', function(event) {
+document.getElementById('login').addEventListener('submit', function(event) {
   event.preventDefault();
-  const name = document.getElementById('login-name').value;
-  const password = document.getElementById('login-password').value;
+  const name = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
 
   // Verificação de usuário (simulação)
-  if (name === currentUser.name && password === currentUser.password) {
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const user = users.find(u => u.username === name && u.password === password);
+
+  if (user) {
+    currentUser = user;
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
     alert('Login bem-sucedido!');
-    $('#login-modal').modal('hide');
-    displayQuestions();
+    window.location.href = 'forum.html'; // Redireciona para o fórum após o login
   } else {
     alert('Nome ou senha incorretos!');
   }
 });
 
 // Função de registro
-document.getElementById('register-form').addEventListener('submit', function(event) {
+document.getElementById('register').addEventListener('submit', function(event) {
   event.preventDefault();
-  const name = document.getElementById('register-name').value;
+  const name = document.getElementById('register-username').value;
   const password = document.getElementById('register-password').value;
 
   // Armazenando usuário no localStorage
-  currentUser = { name, password };
-  localStorage.setItem('currentUser', JSON.stringify(currentUser));
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const newUser = { username: name, password: password };
+  users.push(newUser);
+  localStorage.setItem('users', JSON.stringify(users));
 
   alert('Registro bem-sucedido!');
-  $('#register-modal').modal('hide');
+  window.location.href = 'forum.html'; // Redireciona para o fórum após o registro
 });
 
-// Exibe as perguntas quando a página carrega
+// Funções de exibição de modais de login e registro
+function showRegister() {
+  document.getElementById('login-form').style.display = 'none';
+  document.getElementById('register-form').style.display = 'block';
+}
+
+function showLogin() {
+  document.getElementById('register-form').style.display = 'none';
+  document.getElementById('login-form').style.display = 'block';
+}
+
+// Verifica se o usuário está logado ao carregar a página
 window.onload = function() {
-  displayQuestions();
-  // Se o usuário já estiver logado, não exibe o login
   if (currentUser) {
-    displayQuestions();
+    window.location.href = 'forum.html'; // Redireciona para o fórum se o usuário estiver logado
   } else {
-    $('#login-modal').modal('show');
+    document.getElementById('login-form').style.display = 'block';
   }
 };
