@@ -8,148 +8,168 @@ if (!users.find(user => user.username === "admin")) {
   localStorage.setItem('users', JSON.stringify(users));
 }
 
-// Função de Registro com validações aprimoradas
+// Função de Registro com validações
 function register() {
   const username = document.getElementById('register-username').value.trim();
   const password = document.getElementById('register-password').value.trim();
-
+  
   // Validações de entrada
   if (username.length < 3) {
-    showAlert('O nome de usuário deve ter no mínimo 3 caracteres.', 'danger');
+    showError('Nome de usuário deve ter pelo menos 3 caracteres');
     return;
   }
-
+  
   if (password.length < 6) {
-    showAlert('A senha deve ter no mínimo 6 caracteres.', 'danger');
+    showError('Senha deve ter pelo menos 6 caracteres');
     return;
   }
-
+  
   // Verifica se o nome de usuário já existe
   if (users.find(user => user.username === username)) {
-    showAlert('Usuário já existe!', 'warning');
+    showError('Usuário já existe!');
     return;
   }
 
-  // Adiciona o novo usuário com criptografia básica
+  // Adiciona o novo usuário
   const newUser = { 
     username, 
-    password: btoa(password), // Codificação base64 simples
-    isAdmin: false 
+    password, 
+    isAdmin: false,
+    createdAt: new Date().toISOString()
   };
+  
   users.push(newUser);
   localStorage.setItem('users', JSON.stringify(users));
-
-  showAlert('Usuário registrado com sucesso!', 'success');
   
-  // Redireciona para a página apropriada
-  setTimeout(() => {
-    window.location.href = "forum.html";
-  }, 1500);
+  // Feedback de sucesso
+  Swal.fire({
+    icon: 'success',
+    title: 'Registro Concluído!',
+    text: 'Usuário registrado com sucesso',
+    confirmButtonText: 'OK'
+  }).then(() => {
+    redirectUser(newUser);
+  });
 }
 
-// Função de Login com segurança aprimorada
+// Função de Login melhorada
 function login() {
   const username = document.getElementById('username').value.trim();
   const password = document.getElementById('password').value.trim();
-
+  
   // Procura o usuário no banco de dados
-  const user = users.find(user => 
-    user.username === username && 
-    (user.password === password || user.password === btoa(password))
-  );
-
+  const user = users.find(user => user.username === username && user.password === password);
+  
   if (user) {
-    showAlert(`Bem-vindo, ${username}!`, 'success');
-    
-    // Redireciona com timeout para mostrar mensagem
-    setTimeout(() => {
-      if (user.isAdmin) {
-        window.location.href = "admin.html"; // Página do admin
-      } else {
-        window.location.href = "forum.html"; // Página principal do fórum
-      }
-    }, 1500);
+    // Animação de login bem-sucedido
+    Swal.fire({
+      icon: 'success',
+      title: `Bem-vindo, ${username}!`,
+      showConfirmButton: false,
+      timer: 1500
+    }).then(() => {
+      redirectUser(user);
+    });
   } else {
-    showAlert('Nome ou senha incorretos!', 'danger');
+    showError('Nome ou senha incorretos!');
   }
 }
 
-// Função para mostrar alertas com estilo
-function showAlert(message, type = 'info') {
-  const alertContainer = document.getElementById('alert-container') || createAlertContainer();
-  alertContainer.innerHTML = `
-    <div class="alert alert-${type} alert-dismissible fade show" role="alert">
-      ${message}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-  `;
+// Função para redirecionar usuário
+function redirectUser(user) {
+  if (user.isAdmin) {
+    window.location.href = "admin.html";
+  } else {
+    window.location.href = "forum.html";
+  }
 }
 
-// Cria um container de alertas se não existir
-function createAlertContainer() {
-  const container = document.createElement('div');
-  container.id = 'alert-container';
-  container.classList.add('alert-container');
-  document.body.insertBefore(container, document.body.firstChild);
-  return container;
+// Função para mostrar erros
+function showError(message) {
+  Swal.fire({
+    icon: 'error',
+    title: 'Erro',
+    text: message,
+    confirmButtonText: 'OK'
+  });
 }
 
-// Alternar entre formulários de login e registro com animação
+// Alternar entre formulários de login e registro com animações
 function showRegister() {
-  const loginForm = document.getElementById('login-form');
-  const registerForm = document.getElementById('register-form');
-  
-  loginForm.classList.add('slide-out-left');
+  document.getElementById('login-form').classList.add('animate__animated', 'animate__fadeOutLeft');
   setTimeout(() => {
-    loginForm.style.display = 'none';
-    loginForm.classList.remove('slide-out-left');
-    
-    registerForm.style.display = 'block';
-    registerForm.classList.add('slide-in-right');
-  }, 300);
+    document.getElementById('login-form').style.display = 'none';
+    document.getElementById('register-form').style.display = 'block';
+    document.getElementById('register-form').classList.add('animate__animated', 'animate__fadeInRight');
+  }, 500);
 }
 
 function showLogin() {
-  const loginForm = document.getElementById('login-form');
-  const registerForm = document.getElementById('register-form');
-  
-  registerForm.classList.add('slide-out-right');
+  document.getElementById('register-form').classList.add('animate__animated', 'animate__fadeOutRight');
   setTimeout(() => {
-    registerForm.style.display = 'none';
-    registerForm.classList.remove('slide-out-right');
-    
-    loginForm.style.display = 'block';
-    loginForm.classList.add('slide-in-left');
-  }, 300);
+    document.getElementById('register-form').style.display = 'none';
+    document.getElementById('login-form').style.display = 'block';
+    document.getElementById('login-form').classList.add('animate__animated', 'animate__fadeInLeft');
+  }, 500);
 }
 
-// Eventos de clique e tecla Enter
+// Eventos de clique
 document.addEventListener('DOMContentLoaded', () => {
   const loginBtn = document.getElementById('login-btn');
   const registerBtn = document.getElementById('register-btn');
-  const passwordLogin = document.getElementById('password');
-  const passwordRegister = document.getElementById('register-password');
+  const passwordInput = document.getElementById('password');
+  const registerPasswordInput = document.getElementById('register-password');
 
   if (loginBtn) loginBtn.addEventListener('click', login);
   if (registerBtn) registerBtn.addEventListener('click', register);
 
-  // Adiciona evento de tecla Enter
-  if (passwordLogin) {
-    passwordLogin.addEventListener('keypress', (event) => {
-      if (event.key === 'Enter') login();
+  // Adiciona suporte para Enter em campos de senha
+  if (passwordInput) {
+    passwordInput.addEventListener('keypress', function(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        login();
+      }
     });
   }
 
-  if (passwordRegister) {
-    passwordRegister.addEventListener('keypress', (event) => {
-      if (event.key === 'Enter') register();
+  if (registerPasswordInput) {
+    registerPasswordInput.addEventListener('keypress', function(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        register();
+      }
     });
   }
 });
 
-// Função para mostrar/esconder senha
-function togglePasswordVisibility(inputId) {
-  const passwordInput = document.getElementById(inputId);
-  const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-  passwordInput.setAttribute('type', type);
+// Função para gerenciar postagens no fórum
+function postQuestion() {
+  const questionTextarea = document.querySelector('.card textarea');
+  const questionText = questionTextarea.value.trim();
+  
+  if (questionText) {
+    const questionsList = document.querySelector('.list-group');
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    
+    const newQuestionElement = document.createElement('li');
+    newQuestionElement.classList.add('list-group-item', 'animate__animated', 'animate__fadeIn');
+    newQuestionElement.innerHTML = `
+      <strong>${currentUser ? currentUser.username : 'Usuário Anônimo'}</strong>
+      <p>${questionText}</p>
+      <button class="btn btn-info btn-sm">Responder</button>
+    `;
+    
+    questionsList.insertBefore(newQuestionElement, questionsList.firstChild);
+    questionTextarea.value = '';
+    
+    // Salvar questão no localStorage (implementação básica)
+    const questions = JSON.parse(localStorage.getItem('forumQuestions') || '[]');
+    questions.unshift({
+      user: currentUser ? currentUser.username : 'Usuário Anônimo',
+      text: questionText,
+      timestamp: new Date().toISOString()
+    });
+    localStorage.setItem('forumQuestions', JSON.stringify(questions));
+  }
 }
